@@ -10,12 +10,14 @@ public class Banco {
     private String usuario;
     private String senha;
 
-    public Statement abrirConexao() throws SQLException{
-        url = "jdbc:h2:mem:demo_aula1;DB_CLOSE_DELAY=-1";
-        usuario = "sa";
-        senha = "";
+    public Statement comando;
+
+    public void abrirConexao() throws SQLException{
+        this.url = "jdbc:h2:mem:demo_aula1;DB_CLOSE_DELAY=-1";
+        this.usuario = "sa";
+        this.senha = "";
         try (Connection conexao = DriverManager.getConnection(url, usuario, senha); Statement comando = conexao.createStatement()){
-            return comando;
+            this.comando = comando;
         }
     }
 }
