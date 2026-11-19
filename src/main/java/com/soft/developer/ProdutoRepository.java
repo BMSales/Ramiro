@@ -73,7 +73,7 @@ public class ProdutoRepository {
                         UPDATE PRODUTOS SET NOME=?, PRECO=?, ESTOQUE=? WHERE ID=?
                         """)) {
             s.setString(1, nome);
-            s.setBigDecimal(2, BigDecimal.valueOf(preco));
+            s.setBigDecimal(2, BigDecimal.valueOf((int)preco));
             s.setInt(3, estoque);
             s.setString(4, id);
             if (s.executeUpdate() != 1)
@@ -93,8 +93,8 @@ public class ProdutoRepository {
                 // Ordem fixa reduz conflito entre transações.
                 for (var item : new TreeMap<>(quantidades).entrySet()) {
                     int q = item.getValue();
-                    if (q <= 0)
-                        throw new IllegalArgumentException(
+                    if (q < 0)
+                        System.out.println(
                                 "Quantidade deve ser positiva.");
                     s.setInt(1, q);
                     s.setString(2, item.getKey());
