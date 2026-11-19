@@ -74,7 +74,7 @@ public class CarrinhoCompras {
     /**
      * Finaliza a compra e atualiza o estoque.
      */
-    public void finalizarCompra(ProdutoRepository repository, Banco banco) {
+    public void finalizarCompra() {
 
         if (itens.isEmpty()) {
             throw new IllegalStateException(
@@ -101,7 +101,6 @@ public class CarrinhoCompras {
             item.getProduto().reduzirEstoque(
                 item.getQuantidade()
             );
-            // repository.atualizarEstoque(item.getProduto(), item.getProduto().getEstoque(), banco);
         }
 
         // Esvazia carrinho

@@ -1,26 +1,23 @@
 package com.soft.developer;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Banco {
-    private String url;
-    private String usuario;
-    private String senha;
+    private final String url;
 
-    public Statement comando;
+    public Banco() {
+        this("jdbc:h2:file:~/mercadinho-dados/mercadinho");
+    }
 
-    public void abrirConexao() {
-        this.url = "jdbc:h2:mem:demo_aula1;DB_CLOSE_DELAY=-1";
-        this.usuario = "sa";
-        this.senha = "";
-        try (Connection conexao = DriverManager.getConnection(url, usuario, senha); Statement comando = conexao.createStatement()){
-            this.comando = comando;
-        }
-        catch(SQLException e){
-            System.out.println(e);
-        }
+    public Banco(String url) {
+        this.url = url;
+    }
+
+    public Connection abrirConexao() throws SQLException {
+        return DriverManager.getConnection(url, "sa", "");
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
