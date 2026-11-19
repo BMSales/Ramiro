@@ -1,3 +1,4 @@
+com/soft/developer/BancoInicializador.class
 com/soft/developer/BancoDemo.class
 com/soft/developer/VendaService.class
 com/soft/developer/MercadinhoGUI.class
@@ -5,5 +6,6 @@ com/soft/developer/ItemCarrinho.class
 com/soft/developer/MercadinhoGUI$1.class
 com/soft/developer/Produto.class
 com/soft/developer/ProdutoRepository.class
+com/soft/developer/Banco.class
 com/soft/developer/CarrinhoCompras.class
 com/soft/developer/MercadinhoGUI$2.class

@@ -12,29 +12,17 @@ public class VendaService {
         return new CarrinhoCompras();
     }
 
-    public void adicionarProduto(
-            CarrinhoCompras carrinho,
-            String idProduto,
-            int quantidade) {
-
-        Produto produto =
-            repository.buscarPorId(idProduto);
+    public void adicionarProduto(CarrinhoCompras carrinho, String idProduto, int quantidade) {
+        Produto produto = repository.buscarPorId(idProduto);
 
         if (produto == null) {
-            throw new IllegalArgumentException(
-                "Produto não encontrado."
-            );
+            throw new IllegalArgumentException("Produto não encontrado.");
         }
 
-        carrinho.adicionarProduto(
-            produto,
-            quantidade
-        );
+        carrinho.adicionarProduto(produto, quantidade);
     }
 
-    public void finalizarVenda(
-            CarrinhoCompras carrinho) {
-
-        carrinho.finalizarCompra();
+    public void finalizarVenda(CarrinhoCompras carrinho, Banco banco) {
+        carrinho.finalizarCompra(repository, banco);
     }
 }

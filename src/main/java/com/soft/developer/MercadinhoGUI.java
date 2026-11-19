@@ -9,6 +9,8 @@ import java.util.List;
 public class MercadinhoGUI extends JFrame {
     private List<Produto> catalogo = new ArrayList<>();
     private CarrinhoCompras carrinho = new CarrinhoCompras();
+    private ProdutoRepository repository = new ProdutoRepository();
+    private Banco banco = new Banco();
     
     private JTable tabelaProdutos;
     private JTable tabelaCarrinho;
@@ -23,11 +25,10 @@ public class MercadinhoGUI extends JFrame {
     }
 
     private void inicializarDados() {
-        catalogo.add(new Produto("1", "Arroz 5kg", 24.90, 15));
-        catalogo.add(new Produto("2", "Feijão Preto 1kg", 8.50, 20));
-        catalogo.add(new Produto("3", "Óleo de Soja", 6.80, 30));
-        catalogo.add(new Produto("4", "Macarrão Spagetti", 4.20, 25));
-        catalogo.add(new Produto("5", "Café Torrado 500g", 14.90, 12));
+        BancoInicializador inicializador = new BancoInicializador();
+        banco.abrirConexao();
+        inicializador.criarEsquema(banco);
+        inicializador.popularRepositorio(banco, repository);
     }
 
     private void configurarJanela() {
@@ -121,7 +122,7 @@ public class MercadinhoGUI extends JFrame {
                 return;
             }
             
-            Produto prodSelecionado = catalogo.get(linhaSelecionada);
+            Produto prodSelecionado = repository.buscarPorId(Integer.toString(linhaSelecionada + 1));
             int qtd = (Integer) spinnerQtd.getValue();
 
             try {
@@ -140,7 +141,9 @@ public class MercadinhoGUI extends JFrame {
 
         btnFinalizar.addActionListener(e -> {
             try {
-                carrinho.finalizarCompra();
+                ProdutoRepository repository = new ProdutoRepository();
+                Banco banco = new Banco();
+                carrinho.finalizarCompra(repository, banco);
                 JOptionPane.showMessageDialog(this, "Compra finalizada com sucesso! Volte sempre.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabelaProdutos();
                 atualizarInterfaceCarrinho();
@@ -152,7 +155,8 @@ public class MercadinhoGUI extends JFrame {
 
     private void atualizarTabelaProdutos() {
         modeloProdutos.setRowCount(0);
-        for (Produto p : catalogo) {
+        List<Produto> products = repository.buscarTodos();
+        for (Produto p : products) {
             modeloProdutos.addRow(new Object[]{p.getId(), p.getNome(), String.format("%.2f", p.getPreco()), p.getEstoque()});
         }
     }
